@@ -58,7 +58,7 @@ ROOT_URLCONF = 'Proyecto1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/Diego/Documents/U/13o Semestre/Taller de integración/iic3193-Tareas/Proyecto1/Vistas'],
+        'DIRS': ['Proyecto1/Vistas'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

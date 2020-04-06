@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('home/', homeView),
+    path('', homeView),
     path('episodio/<int:id>/', episodeView),
     path('personaje/<int:id>/', characterView),
     path('lugar/<int:id>/', placeView),
