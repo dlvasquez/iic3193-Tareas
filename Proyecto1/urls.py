@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Proyecto1.views import homeView, placeView, characterView, episodeView
-
+from django.config import settings
+from django.config.urls.static import static
 
 urlpatterns = [
     path('home/', homeView),
     path('episodio/<int:id>/', episodeView),
     path('personaje/<int:id>/', characterView),
     path('lugar/<int:id>/', placeView),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
