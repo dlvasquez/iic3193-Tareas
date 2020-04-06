@@ -77,8 +77,13 @@ def charactersView(request, id):
         dic = {"numero": i+1, "url": url_p}
         paginas.append(dic)
 
+    new_list = []
+    for p in lista_personajes:
+        new_list.append(
+            {"url": "../../personaje/"+str(p["id"])+"/", "name": p["name"], "image": p["image"]})
+
     documento = doc_externo.render(
-        {"lista_personajes": lista_personajes, "paginas": paginas})
+        {"lista_personajes": new_list, "paginas": paginas})
     return HttpResponse(documento)
 
 

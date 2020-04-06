@@ -24,8 +24,8 @@ urlpatterns = [
     path('episodio/<int:id>/', episodeView),
     path('personaje/<int:id>/', characterView),
     path('lugar/<int:id>/', placeView),
-    path('busqueda/<str:input>', searchView),
-    path('episodios/<int:id>', episodesView),
-    path('personajes/<int:id>', charactersView),
-    path('lugares/<int:id>', locationsView),
+    path('busqueda/<str:input>/', searchView),
+    path('episodios/<int:id>/', episodesView),
+    path('personajes/<int:id>/', charactersView),
+    path('lugares/<int:id>/', locationsView),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
