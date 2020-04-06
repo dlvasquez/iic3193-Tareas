@@ -9,22 +9,13 @@
     <h1>
         Rick and Morty
     </h1>
-
     <h3>
-        Lugar: {{lugar.name}}
-    </h3>
-    <h3>
-        Type: {{lugar.type}}
-    </h3>
-    <h3>
-        Dimension: {{lugar.dimension}}
-    </h3>
-    <h3>
-        Residentes:
+        Lugares:
     </h3>
     <ul>
 
-        {% for e in lista_residentes %}
+
+        {% for e in lista_lugares %}
 
         <li>
             <a href={{e.url}}>{{e.name}}</a>
@@ -35,6 +26,17 @@
         {% endfor %}
 
     </ul>
+
+
+    <h3>
+        Paginas
+    </h3>
+
+    {% for p in paginas %}
+
+    <a href={{p.url}}>{{p.numero}}</a>
+
+    {% endfor %}
 </body>
 
 </html>

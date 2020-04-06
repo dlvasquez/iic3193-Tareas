@@ -8,37 +8,121 @@ from Proyecto1.Clases.Character import Character
 from Proyecto1.Clases.Location import Location
 
 
-def saludo(request):
-    return HttpResponse("holi")
-
-
-def dameEdad(request, agno, edad):
-    periodo = agno-2020
-    edadFutura = "En año %s tendras %s años" % (agno, edad)
-    return HttpResponse(edadFutura)
-
-
 def homeView(request):
     doc_externo = get_template('index.html')
-    respuesta = requests.get('https://rickandmortyapi.com/api/episode')
+    respuesta = requests.get(
+        'https://integracion-rick-morty-api.herokuapp.com/api/episode')
     r_episodios = respuesta.json()
     lista_episodios = r_episodios["results"]
     lista_clases = []
+    paginas = []
+    info = r_episodios["info"]
+    n_pages = info["pages"]
+    for i in range(n_pages):
+        url_p = "../episodios/"+str(i+1)
+        dic = {"numero": i+1, "url": url_p}
+        paginas.append(dic)
+
     for e in lista_episodios:
         episodio = Episode()
         episodio.cargar_episodio(e)
         lista_clases.append(episodio)
     documento = doc_externo.render(
-        {"episodios": lista_clases})
+        {"episodios": lista_clases, "paginas": paginas})
+    return HttpResponse(documento)
+
+
+def episodesView(request, id):
+    doc_externo = get_template('episodes.html')
+    respuesta = requests.get(
+        'https://integracion-rick-morty-api.herokuapp.com/api/episode/?page='+str(id))
+    r_episodios = respuesta.json()
+    lista_episodios = r_episodios["results"]
+    lista_clases = []
+    paginas = []
+    info = r_episodios["info"]
+    n_pages = info["pages"]
+    for i in range(n_pages):
+        url_p = "../../episodios/"+str(i+1)
+        dic = {"numero": i+1, "url": url_p}
+        paginas.append(dic)
+
+    for e in lista_episodios:
+        episodio = Episode()
+        episodio.cargar_episodio(e)
+        lista_clases.append(episodio)
+    documento = doc_externo.render(
+        {"episodios": lista_clases, "paginas": paginas})
+    return HttpResponse(documento)
+
+
+def charactersView(request, id):
+    doc_externo = get_template('characters.html')
+    if (id):
+        respuesta = requests.get(
+            'https://integracion-rick-morty-api.herokuapp.com/api/character/?page='+str(id))
+    else:
+        respuesta = requests.get(
+            'https: // integracion-rick-morty-api.herokuapp.com/api/character')
+
+    # respuesta = requests.get(
+    #     'https://integracion-rick-morty-api.herokuapp.com/api/character/?page='+str(id))
+    r_personajes = respuesta.json()
+    lista_personajes = r_personajes["results"]
+    paginas = []
+    info = r_personajes["info"]
+    n_pages = info["pages"]
+    for i in range(n_pages):
+        url_p = "../../personajes/"+str(i+1)
+        dic = {"numero": i+1, "url": url_p}
+        paginas.append(dic)
+
+    new_list = []
+    for p in lista_personajes:
+        new_list.append(
+            {"url": "../../personaje/"+str(p["id"])+"/", "name": p["name"], "image": p["image"]})
+
+    documento = doc_externo.render(
+        {"lista_personajes": new_list, "paginas": paginas})
+    return HttpResponse(documento)
+
+
+def locationsView(request, id):
+    doc_externo = get_template('locations.html')
+    if (id):
+        respuesta = requests.get(
+            'https://integracion-rick-morty-api.herokuapp.com/api/location/?page='+str(id))
+    else:
+        respuesta = requests.get(
+            'https: // integracion-rick-morty-api.herokuapp.com/api/location')
+
+    r_lugares = respuesta.json()
+    lista_lugares = r_lugares["results"]
+    paginas = []
+    info = r_lugares["info"]
+    n_pages = info["pages"]
+    for i in range(n_pages):
+        url_p = "../../lugares/"+str(i+1)
+        dic = {"numero": i+1, "url": url_p}
+        paginas.append(dic)
+
+    new_list = []
+    for p in lista_lugares:
+        new_list.append(
+            {"url": "../../lugar/"+str(p["id"])+"/", "name": p["name"]})
+
+    documento = doc_externo.render(
+        {"lista_lugares": new_list, "paginas": paginas})
     return HttpResponse(documento)
 
 
 def characterView(request, id):
     doc_externo = get_template('character.html')
     respuesta = requests.get(
-        'https://rickandmortyapi.com/api/character/'+str(id)).json()
+        'https://integracion-rick-morty-api.herokuapp.com/api/character/'+str(id)).json()
     lista_episodios = []
     lista_lugares = []
+
     # buscar episodios
     for e in respuesta["episode"]:
         answer = requests.get(e).json()
@@ -63,7 +147,7 @@ def characterView(request, id):
 def episodeView(request, id):
     doc_externo = get_template('episode.html')
     respuesta = requests.get(
-        'https://rickandmortyapi.com/api/episode/'+str(id))
+        'https://integracion-rick-morty-api.herokuapp.com/api/episode/'+str(id))
     r_episodio = respuesta.json()
     lista_personajes = []
     for p in r_episodio["characters"]:
@@ -78,7 +162,7 @@ def episodeView(request, id):
 def placeView(request, id):
     doc_externo = get_template('location.html')
     respuesta = requests.get(
-        'https://rickandmortyapi.com/api/location/'+str(id))
+        'https://integracion-rick-morty-api.herokuapp.com/api/location/'+str(id))
     r_lugar = respuesta.json()
     lista_personajes = []
     for p in r_lugar["residents"]:
@@ -86,5 +170,13 @@ def placeView(request, id):
         lista_personajes.append(
             {"url": "../../personaje/"+str(answer["id"])+"/", "name": answer["name"], "image": answer["image"]})
 
-    documento = doc_externo.render({"lugar": r_lugar,"lista_residentes": lista_personajes})
+    documento = doc_externo.render(
+        {"lugar": r_lugar, "lista_residentes": lista_personajes})
+    return HttpResponse(documento)
+
+
+def searchView(request, input):
+
+    doc_externo = get_template('searchview.html')
+    documento = doc_externo.render({})
     return HttpResponse(documento)

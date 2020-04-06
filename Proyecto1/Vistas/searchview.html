@@ -4,15 +4,30 @@
     <title>Tarea 1</title>
 </head>
 
+
 <body>
     {% include 'navbar.html' %}
+
     <h1>
         Rick and Morty
     </h1>
 
     <h3>
-        Episodio: {{episodio.name}} - {{episodio.episode}}
+        Episodios:
     </h3>
+    <ul>
+
+
+        {% for e in lista_episodios %}
+
+        <li>
+            <a href={{e.url}}>{{e.name}}</a>
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
     <h3>
         Personajes:
     </h3>
@@ -30,6 +45,26 @@
         {% endfor %}
 
     </ul>
+
+    <h3>
+        Lugares:
+    </h3>
+    <ul>
+
+
+        {% for e in lista_lugares %}
+
+        <li>
+            <a href={{e.url}}>{{e.name}}</a>
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+
+
+
 </body>
 
 </html>
