@@ -43,7 +43,7 @@ def episodesView(request, id):
     info = r_episodios["info"]
     n_pages = info["pages"]
     for i in range(n_pages):
-        url_p = "../episodios/"+str(i+1)
+        url_p = "../../episodios/"+str(i+1)
         dic = {"numero": i+1, "url": url_p}
         paginas.append(dic)
 
@@ -73,7 +73,7 @@ def charactersView(request, id):
     info = r_personajes["info"]
     n_pages = info["pages"]
     for i in range(n_pages):
-        url_p = "../personajes/"+str(i+1)
+        url_p = "../../personajes/"+str(i+1)
         dic = {"numero": i+1, "url": url_p}
         paginas.append(dic)
 
@@ -102,12 +102,17 @@ def locationsView(request, id):
     info = r_lugares["info"]
     n_pages = info["pages"]
     for i in range(n_pages):
-        url_p = "../lugares/"+str(i+1)
+        url_p = "../../lugares/"+str(i+1)
         dic = {"numero": i+1, "url": url_p}
         paginas.append(dic)
 
+    new_list = []
+    for p in lista_lugares:
+        new_list.append(
+            {"url": "../../lugar/"+str(p["id"])+"/", "name": p["name"]})
+
     documento = doc_externo.render(
-        {"lista_lugares": lista_lugares, "paginas": paginas})
+        {"lista_lugares": new_list, "paginas": paginas})
     return HttpResponse(documento)
 
 
