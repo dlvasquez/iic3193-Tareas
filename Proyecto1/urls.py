@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Proyecto1.views import homeView, placeView, characterView, episodeView
+from Proyecto1.views import homeView, placeView, characterView, episodeView, searchView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -24,4 +24,5 @@ urlpatterns = [
     path('episodio/<int:id>/', episodeView),
     path('personaje/<int:id>/', characterView),
     path('lugar/<int:id>/', placeView),
+    path('busqueda/<str:input>', searchView)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Tarea 1</title>
+</head>
+
+
+<body>
+
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <div class="search-container">
+            <form action="/action_page.php">
+                <input type="text" placeholder="Search.." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+    <h1>
+        Rick and Morty
+    </h1>
+
+    <h3>
+        Episodio: {{episodio.name}} - {{episodio.episode}}
+    </h3>
+    <h3>
+        Personajes:
+    </h3>
+    <ul>
+
+
+        {% for e in lista_personajes %}
+
+        <li>
+            <a href={{e.url}}>{{e.name}}</a>
+            <img src="{{e.image}}" alt="">
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+</body>
+
+</html>

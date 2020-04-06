@@ -20,7 +20,8 @@ def dameEdad(request, agno, edad):
 
 def homeView(request):
     doc_externo = get_template('index.html')
-    respuesta = requests.get('https://rickandmortyapi.com/api/episode')
+    respuesta = requests.get(
+        'https://integracion-rick-morty-api.herokuapp.com/api/episode')
     r_episodios = respuesta.json()
     lista_episodios = r_episodios["results"]
     lista_clases = []
@@ -36,7 +37,7 @@ def homeView(request):
 def characterView(request, id):
     doc_externo = get_template('character.html')
     respuesta = requests.get(
-        'https://rickandmortyapi.com/api/character/'+str(id)).json()
+        'https://integracion-rick-morty-api.herokuapp.com/api/character/'+str(id)).json()
     lista_episodios = []
     lista_lugares = []
     # buscar episodios
@@ -63,7 +64,7 @@ def characterView(request, id):
 def episodeView(request, id):
     doc_externo = get_template('episode.html')
     respuesta = requests.get(
-        'https://rickandmortyapi.com/api/episode/'+str(id))
+        'https://integracion-rick-morty-api.herokuapp.com/api/episode/'+str(id))
     r_episodio = respuesta.json()
     lista_personajes = []
     for p in r_episodio["characters"]:
@@ -78,7 +79,7 @@ def episodeView(request, id):
 def placeView(request, id):
     doc_externo = get_template('location.html')
     respuesta = requests.get(
-        'https://rickandmortyapi.com/api/location/'+str(id))
+        'https://integracion-rick-morty-api.herokuapp.com/api/location/'+str(id))
     r_lugar = respuesta.json()
     lista_personajes = []
     for p in r_lugar["residents"]:
@@ -86,5 +87,13 @@ def placeView(request, id):
         lista_personajes.append(
             {"url": "../../personaje/"+str(answer["id"])+"/", "name": answer["name"], "image": answer["image"]})
 
-    documento = doc_externo.render({"lugar": r_lugar,"lista_residentes": lista_personajes})
+    documento = doc_externo.render(
+        {"lugar": r_lugar, "lista_residentes": lista_personajes})
+    return HttpResponse(documento)
+
+
+def searchView(request, input):
+
+    doc_externo = get_template('searchview.html')
+    documento = doc_externo.render({})
     return HttpResponse(documento)
