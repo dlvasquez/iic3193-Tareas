@@ -10,26 +10,26 @@
     </h1>
 
     <h3>
-        Capitulos
+        Personajes:
     </h3>
     <ul>
 
-        {% for e in episodios %}
+
+        {% for e in lista_personajes %}
 
         <li>
-            <a href={{e.local_url}}>{{e.name}}</a>
-            <p> fecha al aire: {{e.air_date}}</p>
-            <p> codigo episodio: {{e.episode}}</p>
+            <a href={{e.url}}>{{e.name}}</a>
+            <img src="{{e.image}}" alt="">
 
         </li>
 
         {% endfor %}
+
     </ul>
 
+
     <h3>
-
         Paginas
-
     </h3>
 
     {% for p in paginas %}
@@ -37,7 +37,6 @@
     <a href={{p.url}}>{{p.numero}}</a>
 
     {% endfor %}
-
 </body>
 
 </html>
