@@ -24,7 +24,7 @@ urlpatterns = [
     path('episodio/<int:id>/', episodeView),
     path('personaje/<int:id>/', characterView),
     path('lugar/<int:id>/', placeView),
-    path('busqueda/<str:input>/', searchView),
+    path('busqueda/', searchView),
     path('episodios/<int:id>/', episodesView),
     path('personajes/<int:id>/', charactersView),
     path('lugares/<int:id>/', locationsView),
