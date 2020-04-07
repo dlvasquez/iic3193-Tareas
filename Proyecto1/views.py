@@ -128,11 +128,16 @@ def characterView(request, id):
         answer = requests.get(e).json()
         lista_episodios.append(
             {"url": "../../episodio/"+str(answer["id"])+"/", "name": answer["name"], "episode": answer["episode"]})
+    origin = {}
     # buscar origin
     origin_url = respuesta["origin"]["url"]
-    answer_or = requests.get(origin_url).json()
-    origin = {"url": "../../lugar/" +
-              str(answer_or["id"])+"/", "name": answer_or["name"]}
+    if origin_url:
+        answer_or = requests.get(origin_url).json()
+        origin = {"url": "../../lugar/" +
+                  str(answer_or["id"])+"/", "name": answer_or["name"]}
+    else:
+        origin = {"url": "", "name": respuesta["origin"]["name"]}
+
     # buscar location
     location_url = respuesta["location"]["url"]
     answer_loc = requests.get(location_url).json()
@@ -175,8 +180,41 @@ def placeView(request, id):
     return HttpResponse(documento)
 
 
-def searchView(request, input):
-
+def searchView(request):
     doc_externo = get_template('searchview.html')
-    documento = doc_externo.render({})
+    query = ""
+    if request.GET:
+        query = request.GET["search"]
+
+    r_episodios = requests.get(
+        'https://integracion-rick-morty-api.herokuapp.com/api/episode/?name='+str(query)).json()
+    r_personajes = requests.get(
+        'https://integracion-rick-morty-api.herokuapp.com/api/character/?name='+str(query)).json()
+    r_lugares = requests.get(
+        'https://integracion-rick-morty-api.herokuapp.com/api/location/?name='+str(query)).json()
+
+    nueva_personajes = []
+    nueva_episodios = []
+    nueva_lugares = []
+
+    if len(r_episodios) > 1:
+        lista_episodios = r_episodios["results"]
+        for p in lista_episodios:
+            nueva_episodios.append(
+                {"url": "../../personaje/"+str(p["id"])+"/", "name": p["name"]})
+
+    if len(r_personajes) > 1:
+        lista_personajes = r_personajes["results"]
+        for p in lista_personajes:
+            nueva_personajes.append(
+                {"url": "../../personaje/"+str(p["id"])+"/", "name": p["name"]})
+
+    if len(r_lugares) > 1:
+        lista_lugares = r_lugares["results"]
+        for p in lista_lugares:
+            nueva_lugares.append(
+                {"url": "../../lugar/"+str(p["id"])+"/", "name": p["name"]})
+
+    documento = doc_externo.render({"busqueda": query, "lista_personajes": nueva_personajes,
+                                    "lista_episodios": nueva_episodios, "lista_lugares": nueva_lugares})
     return HttpResponse(documento)
