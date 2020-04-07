@@ -21,7 +21,7 @@ class Episode():
         self.characters = dict_info["characters"]
         self.url = dict_info["url"]
         self.created = dict_info["created"]
-        self.local_url = "../episodio/"+str(self.id)+"/"
+        self.local_url = "../../episodio/"+str(self.id)+"/"
 
     def buscar_personajes(self):
         for p in self.characters:
